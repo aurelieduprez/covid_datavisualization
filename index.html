@@ -1,41 +1,45 @@
-ppdpdpdpdpdpdpdp
 <html>
-  <canvas id="myChart"></canvas>
+  <head>
+    <canvas id="myChart"></canvas>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script src="//d3js.org/d3.v3.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/style/stylesheet.css" />
+  </head>
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-  <script src="//d3js.org/d3.v3.min.js"></script>
+  <body>
+    testing string
+    <script>
+      barChart();
 
-  <script>
-    zizi();
+      async function barChart() {
+        data = await d3.json(
+          "https://dvstdata.s3.eu-west-3.amazonaws.com/Covid-19-json.json",
+          function (data) {
+            console.log(data);
+          }
+        );
+        var ctx = document.getElementById("myChart").getContext("2d");
+        var chart = new Chart(ctx, {
+          // The type of chart we want to create
+          type: "bar",
 
-    async function zizi() {
-      data = await d3.json(
-        "https://dvstdata.s3.eu-west-3.amazonaws.com/Covid-19-json.json",
-        function (data) {
-          console.log(data);
-        }
-      );
-      var ctx = document.getElementById("myChart").getContext("2d");
-      var chart = new Chart(ctx, {
-        // The type of chart we want to create
-        type: "bar",
+          // The data for our dataset
+          data: {
+            labels: ["France", "Worldwide"],
+            datasets: [
+              {
+                label: "first graph",
+                backgroundColor: "rgb(255, 99, 132)",
+                borderColor: "rgb(255, 99, 132)",
+                data: [3, 3],
+              },
+            ],
+          },
 
-        // The data for our dataset
-        data: {
-          labels: ["France", "Worldwide"],
-          datasets: [
-            {
-              label: "first graph",
-              backgroundColor: "rgb(255, 99, 132)",
-              borderColor: "rgb(255, 99, 132)",
-              data: [3, 3],
-            },
-          ],
-        },
-
-        // Configuration options go here
-        options: {},
-      });
-    }
-  </script>
+          // Configuration options go here
+          options: {},
+        });
+      }
+    </script>
+  </body>
 </html>
