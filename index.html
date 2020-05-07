@@ -1,16 +1,15 @@
 <html>
   <head>
     <canvas id="myChart"></canvas>
+    <canvas id="myChart1"></canvas>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
     <script src="//d3js.org/d3.v3.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="/style/stylesheet.css" />
   </head>
 
   <body>
-    testing string
     <script>
       barChart();
-
+      pieChart();
       async function barChart() {
         data = await d3.json(
           "https://dvstdata.s3.eu-west-3.amazonaws.com/Covid-19-json.json",
@@ -28,10 +27,10 @@
             labels: ["France", "Worldwide"],
             datasets: [
               {
-                label: "first graph",
-                backgroundColor: "rgb(255, 99, 132)",
-                borderColor: "rgb(255, 99, 132)",
-                data: [3, 3],
+                label: "France",
+                backgroundColor: ["rgb(255, 99, 132)", "rgb(255, 99, 0)"],
+                borderColor: ["rgb(255, 99, 132)", "rgb(255, 99, 0)"],
+                data: [3, 2],
               },
             ],
           },
@@ -40,6 +39,67 @@
           options: {},
         });
       }
+      /*   pie chart */
+      async function pieChart() {
+        data = await d3.json(
+          "https://dvstdata.s3.eu-west-3.amazonaws.com/Covid-19-json.json",
+          function (data) {
+            console.log(data);
+          }
+        );
+        var ctx = document.getElementById("myChart").getContext("2d");
+        var chart = new Chart(ctx, {
+          // The type of chart we want to create
+          type: "pie",
+
+          // The data for our dataset
+          data: {
+            labels: ["France", "Worldwide"],
+            datasets: [
+              {
+                label: "France",
+                backgroundColor: ["rgb(255, 99, 132)", "rgb(255, 99, 0)"],
+                borderColor: ["rgb(255, 99, 132)", "rgb(255, 99, 0)"],
+                data: [3, 2],
+              },
+            ],
+          },
+
+          // Configuration options go here
+          options: {},
+        });
+      }
+
+      /*   line graphs 
+      async function lineChart() {
+        data = await d3.json(
+          "https://dvstdata.s3.eu-west-3.amazonaws.com/Covid-19-json.json",
+          function (data) {
+            console.log(data);
+          }
+        );
+        var ctx = document.getElementById("myChart").getContext("2d");
+        var chart = new Chart(ctx, {
+          // The type of chart we want to create
+          type: "line",
+
+          // The data for our dataset
+          data: {
+            labels: ["France", "Worldwide"],
+            datasets: [
+              {
+                label: "France",
+                backgroundColor: ["rgb(255, 99, 132)", "rgb(255, 99, 0)"],
+                borderColor: ["rgb(255, 99, 132)", "rgb(255, 99, 0)"],
+                data: [3, 2],
+              },
+            ],
+          },
+
+          // Configuration options go here
+          options: {},
+        });
+      }*/
     </script>
   </body>
 </html>
