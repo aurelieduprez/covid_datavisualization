@@ -13,12 +13,11 @@
         <canvas id="chartCases" style="width: 512px; height: 256px"></canvas>
         <h2 id="secondChart">Number of deaths due to COVID-19 on March 31st, 2020 in France and worldwide</h2>
         <canvas id="chartPie"></canvas>
-        <h2 id="thirdChart">Number of Cases and deaths on March 31st, 2020 in FRance and worldwide</h2>
+        <h2 id="thirdChart">Number of Cases and deaths on March 31st, 2020 in France and worldwide</h2>
         <canvas id="stackedBarChart"></canvas>
-        <h2 id="thirdChart">Number of Cases and deaths on March 31st, 2020 in FRance and worldwide</h2>
+        <h2 id="fourthChart"> progress of COVID-19 in France between 1/1/2020 and 31/3/2020</h2>
         <canvas id="lineChart"></canvas>
-
-
+        
     </div>
 </br></br></br></br>
     <script>
@@ -26,10 +25,11 @@
       barChart();
       pieChart();
       stackedBarChart();
+      lineChart();
 
       async function barChart() {
         //get france cases
-        var franceAllCases = await $.get("http://localhost:8080/franceCases");
+        var franceAllCases = await $.get("http://localhost:8080/franceCasesMarch");
         console.log(franceAllCases);
         var nbFranceCases = 0;
         for (let i = 0; i < franceAllCases.length; i++) {
@@ -37,7 +37,7 @@
         }
         console.log(nbFranceCases);
         //get worldwide cases
-        var worldAllCases = await $.get("http://localhost:8080/worldCases");
+        var worldAllCases = await $.get("http://localhost:8080/worldCasesMarch");
         console.log(worldAllCases);
         var nbWorldCases = 0;
         for (let i = 0; i < worldAllCases.length; i++) {
@@ -72,7 +72,7 @@
 
       async function stackedBarChart() {
 
-                var franceAllCases = await $.get("http://localhost:8080/franceCases");
+                var franceAllCases = await $.get("http://localhost:8080/franceCasesMarch");
         console.log(franceAllCases);
         var nbFranceCases = 0;
         for (let i = 0; i < franceAllCases.length; i++) {
@@ -80,7 +80,7 @@
         }
         console.log(nbFranceCases);
         //get worldwide cases
-        var worldAllCases = await $.get("http://localhost:8080/worldCases");
+        var worldAllCases = await $.get("http://localhost:8080/worldCasesMarch");
         console.log(worldAllCases);
         var nbWorldCases = 0;
         for (let i = 0; i < worldAllCases.length; i++) {
@@ -88,7 +88,7 @@
         }
         console.log(nbWorldCases);
         //get france cases
-        var franceAllDeaths = await $.get("http://localhost:8080/franceDeaths");
+        var franceAllDeaths = await $.get("http://localhost:8080/franceDeathsMarch");
         console.log(franceAllDeaths);
         var nbFranceDeaths = 0;
         for (let i = 0; i < franceAllDeaths.length; i++) {
@@ -96,7 +96,7 @@
         }
         console.log(nbFranceDeaths);
         //get worldwide cases
-        var worldAllDeaths = await $.get("http://localhost:8080/worldDeaths");
+        var worldAllDeaths = await $.get("http://localhost:8080/worldDeathsMarch");
         console.log(worldAllDeaths);
         var nbWorldDeaths = 0;
         for (let i = 0; i < worldAllDeaths.length; i++) {
@@ -151,7 +151,7 @@
 
 
         //get france deaths
-        var franceAllDeaths = await $.get("http://localhost:8080/franceDeaths");
+        var franceAllDeaths = await $.get("http://localhost:8080/franceDeathsMarch");
         console.log(franceAllDeaths);
         var nbFranceDeaths = 0;
         for (let i = 0; i < franceAllDeaths.length; i++) {
@@ -159,7 +159,7 @@
         }
         console.log(nbFranceDeaths);
         //get worldwide deaths
-        var worldAllDeaths = await $.get("http://localhost:8080/worldDeaths");
+        var worldAllDeaths = await $.get("http://localhost:8080/worldDeathsMarch");
         console.log(worldAllDeaths);
         var nbWorldDeaths = 0;
         for (let i = 0; i < worldAllDeaths.length; i++) {
@@ -190,6 +190,49 @@
         });
       }
 
+
+        async function lineChart() {
+
+        var franceDates = await $.get("http://localhost:8080/getDaysFrance");
+        var orderedDates = [];
+        for (let i = 0; i < franceDates.length - 1; i++) {
+        orderedDates.unshift(franceDates[i]);
+        }
+        console.log(orderedDates);
+
+        var franceAllCases = await $.get("http://localhost:8080/franceCases");
+        console.log(franceAllCases);
+        var orderedCases = [];
+        for (let i = 0; i < franceAllCases.length - 1; i++) {
+        orderedCases.unshift(franceAllCases[i]);
+        }
+        console.log(orderedCases);
+
+
+
+
+        var ctx = document.getElementById("lineChart").getContext("2d");
+        var chart2 = new Chart(ctx, {
+          // The type of chart we want to create
+          type: "line",
+
+          // The data for our dataset
+          data: {
+            labels: orderedDates,
+            datasets: [
+              {
+                label: "Cases",
+                backgroundColor: "rgba(129,178,154, 0.8)",
+                borderColor: "rgba(129,178,154, 0.8)",
+                data: orderedCases,
+              },
+            ],
+          },
+
+          // Configuration options go here
+          options: {maintainAspectRatio: true,},
+        });
+      }
       
 
     </script>
