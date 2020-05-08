@@ -16,15 +16,37 @@ app.get("/data", function (req, res) {
 
 app.get("/franceCases", function (req, res) {
   var data = require("./Covid-19-json.json");
-  var query = jsonQuery("records[*countriesAndTerritories=France].cases", {
-    data: data,
-  }).value; //=> {value: 'Matt', parents: [...], key: 0} ... etc
+  var query = jsonQuery(
+    "records[*countriesAndTerritories=France & dateRep=30/03/2020].cases",
+    {
+      data: data,
+    }
+  ).value; //=> {value: 'Matt', parents: [...], key: 0} ... etc
   res.send(query);
 });
 
 app.get("/worldCases", function (req, res) {
   var data = require("./Covid-19-json.json");
-  var query = jsonQuery("records.cases", {
+  var query = jsonQuery("records[*dateRep=30/03/2020].cases", {
+    data: data,
+  }).value; //=> {value: 'Matt', parents: [...], key: 0} ... etc
+  res.send(query);
+});
+
+app.get("/franceDeaths", function (req, res) {
+  var data = require("./Covid-19-json.json");
+  var query = jsonQuery(
+    "records[*countriesAndTerritories=France & dateRep=30/03/2020].deaths",
+    {
+      data: data,
+    }
+  ).value; //=> {value: 'Matt', parents: [...], key: 0} ... etc
+  res.send(query);
+});
+
+app.get("/worldDeaths", function (req, res) {
+  var data = require("./Covid-19-json.json");
+  var query = jsonQuery("records[*dateRep=30/03/2020].deaths", {
     data: data,
   }).value; //=> {value: 'Matt', parents: [...], key: 0} ... etc
   res.send(query);

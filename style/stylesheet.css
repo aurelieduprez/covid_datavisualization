@@ -11,7 +11,63 @@
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
 }
 
-#test {
-  top: 280px;
+#chartCases {
+  top: 250px;
   position: relative;
+  width: 85% !important;
+  height: 500px !important;
+  left: 8%;
+}
+
+#firstChart {
+  position: absolute;
+  color: #6d6875;
+  top: 200px;
+  text-align: center;
+  width: 100%;
+  font-size: large;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  padding: 20px;
+}
+#secondChart {
+  position: absolute;
+  color: #6d6875;
+  top: 800px;
+  text-align: center;
+  width: 100%;
+  font-size: large;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  padding: 20px;
+}
+
+#thirdChart {
+  position: absolute;
+  color: #6d6875;
+  top: 1620px;
+  text-align: center;
+  width: 100%;
+  font-size: large;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  padding: 20px;
+}
+
+#stackedBarChart {
+  position: relative;
+  width: 85% !important;
+  height: 600px !important;
+  left: 8%;
+  top: 500px;
+}
+
+#chartPie {
+  position: relative;
+  width: 75% !important;
+  height: 75% !important;
+  top: 350px;
+  left: 12%;
+}
+
+content {
+  width: 40%;
+  left: 50px;
 }
