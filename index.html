@@ -17,6 +17,7 @@
         <canvas id="stackedBarChart"></canvas>
         <h2 id="fourthChart"> progress of COVID-19 in France between 1/1/2020 and 31/3/2020</h2>
         <canvas id="lineChart"></canvas>
+        <canvas id="lineChart2"></canvas>
         
     </div>
 </br></br></br></br>
@@ -26,6 +27,7 @@
       pieChart();
       stackedBarChart();
       lineChart();
+      lineChart2();
 
       async function barChart() {
         //get france cases
@@ -233,6 +235,49 @@
           options: {maintainAspectRatio: true,},
         });
       }
+
+      async function lineChart2() {
+
+        var franceDates = await $.get("http://localhost:8080/getDaysFrance");
+        var orderedDates = [];
+        for (let i = 0; i < franceDates.length - 1; i++) {
+        orderedDates.unshift(franceDates[i]);
+        }
+        console.log(orderedDates);
+
+        var franceAllDeaths = await $.get("http://localhost:8080/franceDeaths");
+        console.log(franceAllDeaths);
+        var orderedDeaths = [];
+        for (let i = 0; i < franceAllDeaths.length - 1; i++) {
+        orderedDeaths.unshift(franceAllDeaths[i]);
+        }
+        console.log(orderedDeaths);
+
+
+
+
+        var ctx = document.getElementById("lineChart2").getContext("2d");
+        var chart2 = new Chart(ctx, {
+        // The type of chart we want to create
+        type: "line",
+
+        // The data for our dataset
+        data: {
+            labels: orderedDates,
+            datasets: [
+            {
+                label: "Deaths",
+                backgroundColor: "rgba(129,178,154, 0.8)",
+                borderColor: "rgba(129,178,154, 0.8)",
+                data: orderedDeaths,
+            },
+            ],
+        },
+
+        // Configuration options go here
+        options: {maintainAspectRatio: true,},
+        });
+}
       
 
     </script>

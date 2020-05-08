@@ -68,6 +68,14 @@ app.get("/franceCases", function (req, res) {
   res.send(query);
 });
 
+app.get("/franceDeaths", function (req, res) {
+  var data = require("./Covid-19-json.json");
+  var query = jsonQuery("records.[*countriesAndTerritories=France].deaths", {
+    data: data,
+  }).value; //=> {value: 'Matt', parents: [...], key: 0} ... etc
+  res.send(query);
+});
+
 app.listen(8080, () => {
   console.log("Routes.js running !");
 });

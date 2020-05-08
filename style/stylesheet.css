@@ -86,6 +86,13 @@
   top: 700px;
 }
 
+#lineChart2 {
+  position: relative;
+  width: 85% !important;
+  height: 600px !important;
+  left: 8%;
+  top: 900px;
+}
 content {
   width: 40%;
   left: 50px;
