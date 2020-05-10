@@ -62,6 +62,39 @@
   padding: 20px;
 }
 
+#fifthChart {
+  position: absolute;
+  color: #6d6875;
+  top: 3200px;
+  text-align: center;
+  width: 100%;
+  font-size: large;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  padding: 20px;
+}
+
+#sixthChart {
+  position: absolute;
+  color: #6d6875;
+  top: 3970px;
+  text-align: center;
+  width: 100%;
+  font-size: large;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  padding: 20px;
+}
+
+#seventhChart {
+  position: absolute;
+  color: #6d6875;
+  top: 4900px;
+  text-align: center;
+  width: 100%;
+  font-size: large;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  padding: 20px;
+}
+
 #stackedBarChart {
   position: relative;
   width: 85% !important;
@@ -93,7 +126,29 @@
   left: 8%;
   top: 900px;
 }
+
+#pieChartCases {
+  position: relative;
+  width: 75% !important;
+  height: 75% !important;
+  top: 1070px;
+  left: 12%;
+}
+
+#pieChartDeaths {
+  position: relative;
+  width: 75% !important;
+  height: 75% !important;
+  top: 1300px;
+  left: 12%;
+}
+
 content {
   width: 40%;
   left: 50px;
+}
+
+canvas {
+  background-color: lightgrey;
+  border-radius: 10%, 10%, 10%, 10%;
 }

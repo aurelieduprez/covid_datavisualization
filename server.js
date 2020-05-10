@@ -76,6 +76,38 @@ app.get("/franceDeaths", function (req, res) {
   res.send(query);
 });
 
+app.get("/ContinentCountries", function (req, res) {
+  var data = require("./country-by-continent.json");
+  var query = jsonQuery(`[*continent=${req.query.continent}].country`, {
+    data: data,
+  }).value;
+  res.send(query);
+});
+
+app.get("/CountryCases", function (req, res) {
+  var data = require("./Covid-19-json.json");
+  correctCountryFormat = req.query.country.split(" ").join("_");
+  var query = jsonQuery(
+    `records[*countriesAndTerritories=${correctCountryFormat}].cases`,
+    {
+      data: data,
+    }
+  ).value;
+  res.send(query);
+});
+
+app.get("/CountryDeaths", function (req, res) {
+  var data = require("./Covid-19-json.json");
+  correctCountryFormat = req.query.country.split(" ").join("_");
+  var query = jsonQuery(
+    `records[*countriesAndTerritories=${correctCountryFormat}].deaths`,
+    {
+      data: data,
+    }
+  ).value;
+  res.send(query);
+});
+
 app.listen(8080, () => {
   console.log("Routes.js running !");
 });

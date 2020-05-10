@@ -7,7 +7,7 @@
   </head>
 
   <body>
-    <div id="content">
+            <!-- affichage des différents graphs et titres -->
         <div id="welcome"></br></br>Data Analysis - Covid 19</div>
         <h2 id="firstChart">Spread of COVID-19 on March 31st, 2020 in France and worldwide</h2>
         <canvas id="chartCases" style="width: 512px; height: 256px"></canvas>
@@ -15,32 +15,39 @@
         <canvas id="chartPie"></canvas>
         <h2 id="thirdChart">Number of Cases and deaths on March 31st, 2020 in France and worldwide</h2>
         <canvas id="stackedBarChart"></canvas>
-        <h2 id="fourthChart"> progress of COVID-19 in France between 1/1/2020 and 31/3/2020</h2>
+        <h2 id="fourthChart"> Progress of COVID-19 in France between 1/1/2020 and 31/3/2020</h2>
         <canvas id="lineChart"></canvas>
+        <h2 id="fifthChart"> Curve of COVID-19 deaths in France between 1/1/2020 and 31/3/2020</h2>
         <canvas id="lineChart2"></canvas>
+        <h2 id="sixthChart"> Spread (number of cases) of COVID-19 for each continent on 3/31/2020</h2>
+        <canvas id="pieChartCases"></canvas>
+        <h2 id="seventhChart"> Spread (number of cases) of COVID-19 for each continent on 3/31/2020</h2>
+        <canvas id="pieChartDeaths"></canvas>
         
-    </div>
-</br></br></br></br>
+</br></br></br></br></br></br>
     <script>
-      
+      //appel des fonctions pour générer les graphs 
       barChart();
       pieChart();
       stackedBarChart();
       lineChart();
       lineChart2();
+      pieChartCases();
+      pieChartDeaths();
 
+
+      //Graph sur le nombre de cas en France et dans le monde
       async function barChart() {
-        //get france cases
+        //récuperer les cas via requete ( voir server.js)
         var franceAllCases = await $.get("http://localhost:8080/franceCasesMarch");
-        console.log(franceAllCases);
+        //compter le nb total de cas
         var nbFranceCases = 0;
         for (let i = 0; i < franceAllCases.length; i++) {
           nbFranceCases += parseInt(franceAllCases[i]);
         }
-        console.log(nbFranceCases);
-        //get worldwide cases
+        //récupérer les cas du monde via requete (voir server.js)
         var worldAllCases = await $.get("http://localhost:8080/worldCasesMarch");
-        console.log(worldAllCases);
+        //compter le nb otal de cas dans le monde
         var nbWorldCases = 0;
         for (let i = 0; i < worldAllCases.length; i++) {
           nbWorldCases += parseInt(worldAllCases[i]);
@@ -224,8 +231,8 @@
             datasets: [
               {
                 label: "Cases",
-                backgroundColor: "rgba(129,178,154, 0.8)",
-                borderColor: "rgba(129,178,154, 0.8)",
+                backgroundColor: "rgb(244, 172, 183)",
+                borderColor: "rgb(244, 172, 183)",
                 data: orderedCases,
               },
             ],
@@ -267,8 +274,8 @@
             datasets: [
             {
                 label: "Deaths",
-                backgroundColor: "rgba(129,178,154, 0.8)",
-                borderColor: "rgba(129,178,154, 0.8)",
+                backgroundColor: "rgb(157, 129, 137)",
+                borderColor: "rgb(157, 129, 137)",
                 data: orderedDeaths,
             },
             ],
@@ -278,6 +285,167 @@
         options: {maintainAspectRatio: true,},
         });
 }
+
+      async function pieChartCases() {
+
+      //requêtes pour récupérer les pays associés a chaque continent ( voir server.js)
+        var AfricaCountries = await $.get("http://localhost:8080/ContinentCountries?continent=Africa");
+        var AsiaCountries = await $.get("http://localhost:8080/ContinentCountries?continent=Asia");
+        var NorthAmericaCountries = await $.get("http://localhost:8080/ContinentCountries?continent=North+America");
+        var SouthAmericaCountries = await $.get("http://localhost:8080/ContinentCountries?continent=South+America");
+        var EuropeCountries = await $.get("http://localhost:8080/ContinentCountries?continent=Europe");
+        var OceaniaCountries = await $.get("http://localhost:8080/ContinentCountries?continent=Oceania");
+
+
+
+
+        function countryFormat(country) {
+        return country.split(" ").join("+");
+        }
+
+        async function continentCases(continent) {
+    var totalContinentCases = 0;
+    for (
+      let countryIndex = 0;
+      countryIndex < continent.length;
+      countryIndex++
+    ) {
+      //recup la liste des infectés
+      currentCountry = countryFormat(continent[countryIndex]);
+      countryCases = await $.get(
+        `http://localhost:8080/CountryCases?country=${currentCountry}`
+      );
+      for (let dayIndex = 0; dayIndex < countryCases.length; dayIndex++) {
+        totalContinentCases += parseInt(countryCases[dayIndex]);
+      }
+    }
+    console.log("zebi");
+    console.log(totalContinentCases);
+    return totalContinentCases;
+  }
+
+  
+
+  listContinentCases = [
+    await continentCases(AfricaCountries),
+    await continentCases(AsiaCountries),
+    await continentCases(EuropeCountries),
+    await continentCases(NorthAmericaCountries),
+    await continentCases(OceaniaCountries),
+    await continentCases(SouthAmericaCountries),
+  ];
+
+
+
+        var ctx = document.getElementById("pieChartCases").getContext("2d");
+        var chart2 = new Chart(ctx, {
+        // The type of chart we want to create
+        type: "pie",
+
+        // The data for our dataset
+        data: {
+            labels:        [ "Africa",
+                            "Asia",
+                            "Europe",
+                            "North America",
+                            "Oceania",
+                            "South America"],
+            datasets: [
+            {
+                label: "Cases",
+                backgroundColor: ["rgb(201, 203, 163)", "rgb(255, 225, 168)", "rgb(226, 109, 92)", "rgb(114, 61, 70)", "rgb(71, 45, 48)", "rgb(79, 109, 122)"],
+                borderColor: ["rgb(201, 203, 163)", "rgb(255, 225, 168)", "rgb(226, 109, 92)", "rgb(114, 61, 70)", "rgb(71, 45, 48)", "rgb(79, 109, 122)"],
+                data: listContinentCases,
+            },
+            ],
+        },
+
+
+      })
+    } 
+
+
+    async function pieChartDeaths() {
+
+      //requêtes pour récupérer les pays associés a chaque continent ( voir server.js)
+        var AfricaCountries = await $.get("http://localhost:8080/ContinentCountries?continent=Africa");
+        var AsiaCountries = await $.get("http://localhost:8080/ContinentCountries?continent=Asia");
+        var NorthAmericaCountries = await $.get("http://localhost:8080/ContinentCountries?continent=North+America");
+        var SouthAmericaCountries = await $.get("http://localhost:8080/ContinentCountries?continent=South+America");
+        var EuropeCountries = await $.get("http://localhost:8080/ContinentCountries?continent=Europe");
+        var OceaniaCountries = await $.get("http://localhost:8080/ContinentCountries?continent=Oceania");
+
+
+
+
+        function countryFormat(country) {
+        return country.split(" ").join("+");
+        }
+
+        async function continentDeaths(continent) {
+    var totalContinentDeaths = 0;
+    for (
+      let countryIndex = 0;
+      countryIndex < continent.length;
+      countryIndex++
+    ) {
+      //recup la liste des infectés
+      currentCountry = countryFormat(continent[countryIndex]);
+      countryDeaths = await $.get(
+        `http://localhost:8080/CountryDeaths?country=${currentCountry}`
+      );
+      for (let dayIndex = 0; dayIndex < countryDeaths.length; dayIndex++) {
+        totalContinentDeaths += parseInt(countryDeaths[dayIndex]);
+      }
+    }
+    return totalContinentDeaths;
+  }
+
+  
+
+  listContinentDeaths = [
+    await continentDeaths(AfricaCountries),
+    await continentDeaths(AsiaCountries),
+    await continentDeaths(EuropeCountries),
+    await continentDeaths(NorthAmericaCountries),
+    await continentDeaths(OceaniaCountries),
+    await continentDeaths(SouthAmericaCountries),
+  ];
+
+
+
+        var ctx = document.getElementById("pieChartDeaths").getContext("2d");
+        var chart2 = new Chart(ctx, {
+        // The type of chart we want to create
+        type: "pie",
+
+        // The data for our dataset
+        data: {
+            labels:        [ "Africa",
+                            "Asia",
+                            "Europe",
+                            "North America",
+                            "Oceania",
+                            "South America"],
+            datasets: [
+            {
+                label: "Deaths",
+                backgroundColor: ["rgb(201, 203, 163)", "rgb(255, 225, 168)", "rgb(226, 109, 92)", "rgb(114, 61, 70)", "rgb(71, 45, 48)", "rgb(79, 109, 122)"],
+                borderColor: ["rgb(201, 203, 163)", "rgb(255, 225, 168)", "rgb(226, 109, 92)", "rgb(114, 61, 70)", "rgb(71, 45, 48)", "rgb(79, 109, 122)"],
+                data: listContinentDeaths,
+            },
+            ],
+        },
+
+
+      })
+    } 
+
+
+
+
+
+
       
 
     </script>
