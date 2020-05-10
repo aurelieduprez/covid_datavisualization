@@ -52,14 +52,14 @@
         for (let i = 0; i < worldAllCases.length; i++) {
           nbWorldCases += parseInt(worldAllCases[i]);
         }
-        console.log(nbWorldCases);
 
+        //générer le graph selon données fournies
         var ctx = document.getElementById("chartCases").getContext("2d");
         var chart = new Chart(ctx, {
-          // The type of chart we want to create
+          //type du graph
           type: "bar",
 
-          // The data for our dataset
+          //données
           data: {
             labels: ["France", "Worldwide"],
             datasets: [
@@ -72,116 +72,34 @@
               },
             ],
           },
-
-          // Configuration options go here
           options: {},
         });
       }
 
-
-      async function stackedBarChart() {
-
-                var franceAllCases = await $.get("http://localhost:8080/franceCasesMarch");
-        console.log(franceAllCases);
-        var nbFranceCases = 0;
-        for (let i = 0; i < franceAllCases.length; i++) {
-          nbFranceCases += parseInt(franceAllCases[i]);
-        }
-        console.log(nbFranceCases);
-        //get worldwide cases
-        var worldAllCases = await $.get("http://localhost:8080/worldCasesMarch");
-        console.log(worldAllCases);
-        var nbWorldCases = 0;
-        for (let i = 0; i < worldAllCases.length; i++) {
-          nbWorldCases += parseInt(worldAllCases[i]);
-        }
-        console.log(nbWorldCases);
-        //get france cases
-        var franceAllDeaths = await $.get("http://localhost:8080/franceDeathsMarch");
-        console.log(franceAllDeaths);
-        var nbFranceDeaths = 0;
-        for (let i = 0; i < franceAllDeaths.length; i++) {
-          nbFranceDeaths += parseInt(franceAllDeaths[i]);
-        }
-        console.log(nbFranceDeaths);
-        //get worldwide cases
-        var worldAllDeaths = await $.get("http://localhost:8080/worldDeathsMarch");
-        console.log(worldAllDeaths);
-        var nbWorldDeaths = 0;
-        for (let i = 0; i < worldAllDeaths.length; i++) {
-          nbWorldDeaths += parseInt(worldAllDeaths[i]);
-        }
-        console.log(nbWorldDeaths);
-
-        var cty = document.getElementById("stackedBarChart").getContext("2d");
-        var chart2 = new Chart(cty, {
-          // The type of chart we want to create
-          type: "bar",
-
-          // The data for our dataset
-          data: {
-            labels: ["Worldwide", "France"],
-            datasets: [
-              {
-                label: "Deaths",
-                backgroundColor: ["rgb(58, 80, 107)", "rgb(58, 80, 107)"],
-                borderColor: ["rgb(58, 80, 107)", "rgb(58, 80, 107)"],
-                data: [nbWorldDeaths, nbFranceDeaths],
-                id: ['yAxis1', 'yAxis2']
-              },
-              {
-                label: "Cases",
-                backgroundColor: ["rgba(129,178,154, 0.8)", "rgba(129,178,154, 0.8)"],
-                borderColor: ["rgb(233, 196, 106)", "rgb(74, 78, 105)"],
-                data: [nbWorldCases, nbFranceCases ],
-                id: ['yAxis1', 'yAxis2']
-              }
-            ],
-          },
-
-          // Configuration options go here
-          options: {        
-              scales: {
-            xAxes: [{
-                stacked: true
-            }],
-            yAxes: [{
-                stacked: true,
-                id: 'yAxis1',
-                position: 'left'
-            }],
-            responsive: true
-        }},
-        });
-      }
-
-      
+        //graph sur le nombre de morts en france et dans le monde
             async function pieChart() {
 
-
-        //get france deaths
+        //récupérer le nb de morts en France
         var franceAllDeaths = await $.get("http://localhost:8080/franceDeathsMarch");
-        console.log(franceAllDeaths);
+        //compter le nb total de morts en France
         var nbFranceDeaths = 0;
         for (let i = 0; i < franceAllDeaths.length; i++) {
           nbFranceDeaths += parseInt(franceAllDeaths[i]);
         }
-        console.log(nbFranceDeaths);
-        //get worldwide deaths
+        //récupérer le nb de morts dans le monde
         var worldAllDeaths = await $.get("http://localhost:8080/worldDeathsMarch");
-        console.log(worldAllDeaths);
+        //compter le nb total de morts dans le monde
         var nbWorldDeaths = 0;
         for (let i = 0; i < worldAllDeaths.length; i++) {
           nbWorldDeaths += parseInt(worldAllDeaths[i]);
         }
-        console.log(nbWorldDeaths);
 
+        //générer le graphique selon données
         var cty = document.getElementById("chartPie").getContext("2d");
         var chart2 = new Chart(cty, {
-          // The type of chart we want to create
+          //type du graph
           type: "pie",
 
-          // The data for our dataset
           data: {
             labels: ["Worldwide", "France"],
             datasets: [
@@ -193,39 +111,110 @@
               },
             ],
           },
-
-          // Configuration options go here
           options: {maintainAspectRatio: true,},
         });
       }
 
 
+
+
+
+      //générer le graphique comparant le nb de morts et nb de cas en France et dans le monde
+      async function stackedBarChart() {
+
+        var franceAllCases = await $.get("http://localhost:8080/franceCasesMarch");
+        //compter nb de cas en france 
+        var nbFranceCases = 0;
+        for (let i = 0; i < franceAllCases.length; i++) {
+          nbFranceCases += parseInt(franceAllCases[i]);
+        }
+
+        var worldAllCases = await $.get("http://localhost:8080/worldCasesMarch");
+        //compter nb de cas dans le monde
+        var nbWorldCases = 0;
+        for (let i = 0; i < worldAllCases.length; i++) {
+          nbWorldCases += parseInt(worldAllCases[i]);
+        }
+
+        var franceAllDeaths = await $.get("http://localhost:8080/franceDeathsMarch");
+        //compter nb de morts en France
+        var nbFranceDeaths = 0;
+        for (let i = 0; i < franceAllDeaths.length; i++) {
+          nbFranceDeaths += parseInt(franceAllDeaths[i]);
+        }
+
+        var worldAllDeaths = await $.get("http://localhost:8080/worldDeathsMarch");
+        //compter nb de morts dans le monde
+        var nbWorldDeaths = 0;
+        for (let i = 0; i < worldAllDeaths.length; i++) {
+          nbWorldDeaths += parseInt(worldAllDeaths[i]);
+        }
+
+        //générer le graph
+        var cty = document.getElementById("stackedBarChart").getContext("2d");
+        var chart2 = new Chart(cty, {
+          //type de graph
+          type: "bar",
+
+          data: {
+            labels: ["Worldwide", "France"],
+            datasets: [
+              {
+                label: "Deaths",
+                backgroundColor: ["rgb(58, 80, 107)", "rgb(58, 80, 107)"],
+                borderColor: ["rgb(58, 80, 107)", "rgb(58, 80, 107)"],
+                data: [nbWorldDeaths, nbFranceDeaths]
+              },
+              {
+                label: "Cases",
+                backgroundColor: ["rgba(129,178,154, 0.8)", "rgba(129,178,154, 0.8)"],
+                borderColor: ["rgb(233, 196, 106)", "rgb(74, 78, 105)"],
+                data: [nbWorldCases, nbFranceCases ]
+              }
+            ],
+          },
+
+          options: {        
+              scales: {
+            xAxes: [{
+                stacked: true
+            }],
+            yAxes: [{
+                stacked: true,
+            }],
+            responsive: true
+        }},
+        });
+      }
+
+      
+
+
+        //générer le graph sur l'évolution des cas en france 
         async function lineChart() {
 
+
+        //récupérer la liste de tous les jours qui ont été enregistrés
         var franceDates = await $.get("http://localhost:8080/getDaysFrance");
         var orderedDates = [];
         for (let i = 0; i < franceDates.length - 1; i++) {
         orderedDates.unshift(franceDates[i]);
         }
-        console.log(orderedDates);
+
 
         var franceAllCases = await $.get("http://localhost:8080/franceCases");
-        console.log(franceAllCases);
+        //récupérer les cas en France, et les classé du plus vieux au plus récent 
         var orderedCases = [];
         for (let i = 0; i < franceAllCases.length - 1; i++) {
         orderedCases.unshift(franceAllCases[i]);
         }
-        console.log(orderedCases);
 
-
-
-
+        //générer le graph
         var ctx = document.getElementById("lineChart").getContext("2d");
         var chart2 = new Chart(ctx, {
-          // The type of chart we want to create
+          // type du graph
           type: "line",
 
-          // The data for our dataset
           data: {
             labels: orderedDates,
             datasets: [
@@ -237,38 +226,36 @@
               },
             ],
           },
-
-          // Configuration options go here
           options: {maintainAspectRatio: true,},
         });
       }
 
+
+
+
+      //courbe sur le nb de morts à travers le temps
       async function lineChart2() {
 
+        //récupérer les jours avec des cas enregistrés
         var franceDates = await $.get("http://localhost:8080/getDaysFrance");
         var orderedDates = [];
+        //mettre les dates à l'endroit
         for (let i = 0; i < franceDates.length - 1; i++) {
         orderedDates.unshift(franceDates[i]);
         }
-        console.log(orderedDates);
-
+        //toutes les morts en france, à l'endroit
         var franceAllDeaths = await $.get("http://localhost:8080/franceDeaths");
-        console.log(franceAllDeaths);
         var orderedDeaths = [];
         for (let i = 0; i < franceAllDeaths.length - 1; i++) {
         orderedDeaths.unshift(franceAllDeaths[i]);
         }
-        console.log(orderedDeaths);
 
-
-
-
+        //générer le graph
         var ctx = document.getElementById("lineChart2").getContext("2d");
         var chart2 = new Chart(ctx, {
-        // The type of chart we want to create
+        //type de graph
         type: "line",
 
-        // The data for our dataset
         data: {
             labels: orderedDates,
             datasets: [
@@ -280,12 +267,12 @@
             },
             ],
         },
-
-        // Configuration options go here
         options: {maintainAspectRatio: true,},
         });
 }
 
+
+    //graphs avec la part des cas selon les continents
       async function pieChartCases() {
 
       //requêtes pour récupérer les pays associés a chaque continent ( voir server.js)
@@ -298,7 +285,7 @@
 
 
 
-
+        //met le nom des pays au bon format (espaces transformés en +)
         function countryFormat(country) {
         return country.split(" ").join("+");
         }
@@ -310,7 +297,7 @@
       countryIndex < continent.length;
       countryIndex++
     ) {
-      //recup la liste des infectés
+      //récupère le nb de cas pour le pays en cours dans la liste (voir requete dans server.js)
       currentCountry = countryFormat(continent[countryIndex]);
       countryCases = await $.get(
         `http://localhost:8080/CountryCases?country=${currentCountry}`
@@ -319,13 +306,11 @@
         totalContinentCases += parseInt(countryCases[dayIndex]);
       }
     }
-    console.log("zebi");
-    console.log(totalContinentCases);
     return totalContinentCases;
   }
 
   
-
+//liste des cas de chaque continent
   listContinentCases = [
     await continentCases(AfricaCountries),
     await continentCases(AsiaCountries),
@@ -335,14 +320,12 @@
     await continentCases(SouthAmericaCountries),
   ];
 
-
-
+        //générer le graph
         var ctx = document.getElementById("pieChartCases").getContext("2d");
         var chart2 = new Chart(ctx, {
-        // The type of chart we want to create
+        //type de graph
         type: "pie",
 
-        // The data for our dataset
         data: {
             labels:        [ "Africa",
                             "Asia",
@@ -375,21 +358,19 @@
         var EuropeCountries = await $.get("http://localhost:8080/ContinentCountries?continent=Europe");
         var OceaniaCountries = await $.get("http://localhost:8080/ContinentCountries?continent=Oceania");
 
-
-
-
+        //met le nom des pays au bon format (espaces transformés en +)
         function countryFormat(country) {
         return country.split(" ").join("+");
         }
 
         async function continentDeaths(continent) {
-    var totalContinentDeaths = 0;
-    for (
-      let countryIndex = 0;
-      countryIndex < continent.length;
-      countryIndex++
-    ) {
-      //recup la liste des infectés
+      var totalContinentDeaths = 0;
+      for (
+        let countryIndex = 0;
+        countryIndex < continent.length;
+        countryIndex++
+      ) {
+      ////récupère le nb de cas pour le pays en cours dans la liste (voir requete dans server.js)
       currentCountry = countryFormat(continent[countryIndex]);
       countryDeaths = await $.get(
         `http://localhost:8080/CountryDeaths?country=${currentCountry}`
@@ -401,8 +382,7 @@
     return totalContinentDeaths;
   }
 
-  
-
+//liste des cas de chaque continent
   listContinentDeaths = [
     await continentDeaths(AfricaCountries),
     await continentDeaths(AsiaCountries),
@@ -416,10 +396,9 @@
 
         var ctx = document.getElementById("pieChartDeaths").getContext("2d");
         var chart2 = new Chart(ctx, {
-        // The type of chart we want to create
+        // type de graph
         type: "pie",
 
-        // The data for our dataset
         data: {
             labels:        [ "Africa",
                             "Asia",
