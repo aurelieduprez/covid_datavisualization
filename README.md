@@ -9,3 +9,12 @@
     
 * ouvrir le localhost:8080/
     
+    
+    
+ # How to run : 
+ 
+ * execute the following lines in your cmd : 
+    - npm i 
+   - node server
+   
+ * open localhost:8000 withyou web browser
