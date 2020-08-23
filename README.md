@@ -17,4 +17,4 @@
     - npm i 
    - node server
    
- * open localhost:8000 withyou web browser
+ * open localhost:8080 with your web browser
