@@ -1,4 +1,4 @@
-# covid_datavisualization  -  2DVST
+# covid_datavisualization 
 
 # Comment lancer le projet :
 
